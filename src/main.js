@@ -10,7 +10,7 @@ Vue.config.productionTip = false
 
 // 添加导航守卫，在vue-router里面有beforeach
 router.beforeEach((to, from, next) => {
-  console.log(to)
+  // console.log(to)
   // 拿到存储在本地存储的token
   let tokenname = localStorage.getItem('itcast_managet')
   // 判断这个有没有这个值

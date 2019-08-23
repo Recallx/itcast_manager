@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="container">
-      <img src="../assets/avatar.jpg" alt class="avatar" />
+      <img src="../assets/snipaste_20190822_165759.png" alt class="avatar" />
       <el-form
         :model="loginForm"
         :rules="rules"
@@ -43,6 +43,7 @@ export default {
   methods: {
     login () {
       this.$refs.loginForm.validate((valid) => {
+        // console.log(valid)
         if (valid) {
           // 就是有数据，可以发送请求
           // 引入的login发送请求

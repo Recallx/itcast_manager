@@ -5,8 +5,9 @@ import VueRouter from 'vue-router'
 
 // 引入组件
 import login from '../views/1.login.vue'
-import index from '../views/index.vue'
-
+import index from '../views/2.index.vue'
+import welcome from '../views/welcome.vue'
+import users from '../views/user/users.vue'
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -25,7 +26,21 @@ export default new VueRouter({
     {
       name: 'index',
       path: '/index',
-      component: index
+      component: index,
+      // 设置重定向，一登陆就跳到欢迎页面
+      redirect: { name: 'welcome' },
+      children: [
+        {
+          name: 'welcome',
+          path: 'welcome',
+          component: welcome
+        },
+        {
+          name: 'users',
+          path: 'users',
+          component: users
+        }
+      ]
     }
   ]
 })
