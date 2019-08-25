@@ -6,3 +6,10 @@ export const getAllUsers = (params) => {
     params
   })
 }
+export const getAddUser = (data) => {
+  return axios({
+    url: '/users',
+    method: 'post',
+    data
+  })
+}

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="200px" style="overflow: hidden;">
         <img src="../assets/logo.png" class="logo" alt />
         <el-menu
           :router="true"

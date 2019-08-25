@@ -17,7 +17,12 @@
       >
         <el-button slot="append" icon="el-icon-search" @click="init"></el-button>
       </el-input>
-      <el-button type="success" plain style="margin-left:15px">添加用户</el-button>
+      <el-button
+        type="success"
+        plain
+        style="margin-left:15px"
+        @click="addDialogFormVisible = true"
+      >添加用户</el-button>
     </div>
     <!-- 表格展示区域 -->
     <el-table border :data="userList" style="width: 100%; margin-top:20px;">
@@ -45,22 +50,73 @@
       </el-table-column>
     </el-table>
     <!-- 页数条 -->
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="userobj.pagenum"
-        :page-sizes="[1, 2, 3, 4]"
-        :page-size="userobj.pagesize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-      ></el-pagination>
-    </div>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="userobj.pagenum"
+      :page-sizes="[1, 2, 3, 4]"
+      :page-size="userobj.pagesize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    ></el-pagination>
+    <!-- 添加用户 -->
+    <el-dialog title="添加用户" :visible.sync="addDialogFormVisible">
+      <el-form :model="addform" ref="addform" :label-width="'80px'" :rules="rules">
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="addform.username" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="addform.password" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="addform.email" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="mobile">
+          <el-input v-model="addform.mobile" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addDialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addfroms">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 <script>
-import { getAllUsers } from '../../api/user-index.js'
+import { getAllUsers, getAddUser } from '../../api/user-index.js'
 export default {
   data () {
     return {
+      // 用户添加定义
+      addDialogFormVisible: false,
+      addform: {
+        username: '',
+        password: '',
+        email: '',
+        mobile: ''
+      },
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        email: [
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          {
+            pattern: /\w+[@]\w+[.]\w+/,
+            message: '请输入正确的邮箱',
+            trigger: 'blur'
+          }
+        ],
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          {
+            pattern: /^1\d{10}$/,
+            message: '请输入正确的手机号',
+            trigger: 'blur'
+          }
+        ]
+      },
       total: 0,
       status: true,
       userList: [],
@@ -72,21 +128,50 @@ export default {
     }
   },
   methods: {
+    addfroms () {
+      // 通过refs的validate判断二次判断有数据才发送请求，如果没有就提示用户输入正确的数据
+      this.$refs.addform.validate(vaild => {
+        if (vaild) {
+          // 用封装好的方法，把数据发送上去
+          getAddUser(this.addform)
+            .then(res => {
+              if (res.data.meta.status === 201) {
+                // 提示用户添加成功
+                this.$message({
+                  type: 'success',
+                  message: '新增用户成功'
+                })
+              }
+              this.addDialogFormVisible = false
+              // 清空表单内容,通过refs清空
+              this.$refs.addform.resetFields()
+              // 刷新
+              this.init()
+            })
+            .catch(() => {
+              this.$message.success('新增用户失败')
+            })
+        } else {
+          // 提示用户失败
+          this.$message.warning('请输入所有必填数据')
+        }
+      })
+    },
     handleSizeChange (val) {
-    //   console.log(`每页 ${val} 条`)
-    // 将当前的页数赋值给定义好的变量，重新刷新
+      //   console.log(`每页 ${val} 条`)
+      // 将当前的页数赋值给定义好的变量，重新刷新
       this.userobj.pagesize = val
       this.init()
     },
     handleCurrentChange (val) {
-    //   console.log(`当前页: ${val}`)
+      //   console.log(`当前页: ${val}`)
       this.userobj.pagenum = val
       this.init()
     },
     init () {
       getAllUsers(this.userobj)
         .then(res => {
-        //   console.log(res)
+          //   console.log(res)
           if (res.data.meta.status === 200) {
             //   获取总记录数
             this.total = res.data.data.total
