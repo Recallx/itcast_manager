@@ -8,6 +8,8 @@ import login from '../views/1.login.vue'
 import index from '../views/2.index.vue'
 import welcome from '../views/welcome.vue'
 import users from '../views/user/users.vue'
+import quanX from '../views/authority management/authority.vue'
+import jiaoS from '../views/authority management/rightjiao.vue'
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -39,6 +41,16 @@ export default new VueRouter({
           name: 'users',
           path: 'users',
           component: users
+        },
+        {
+          name: 'quanX',
+          path: 'quanX',
+          component: quanX
+        },
+        {
+          name: 'jiaoS',
+          path: 'jiaoS',
+          component: jiaoS
         }
       ]
     }

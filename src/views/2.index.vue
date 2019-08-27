@@ -23,22 +23,24 @@
               </template>
             </el-menu-item>
           </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-location"></i>
-            <span>权限管理</span>
-          </el-menu-item>
-          <el-menu-item index="2-1">
-            <i class="el-icon-location"></i>
-            <span>商品管理</span>
-          </el-menu-item>
-          <el-menu-item index="2-2">
-            <i class="el-icon-location"></i>
-            <span>订单管理</span>
-          </el-menu-item>
-          <el-menu-item index="2-3">
-            <i class="el-icon-location"></i>
-            <span>数据统计</span>
-          </el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>权限管理</span>
+            </template>
+            <el-menu-item index="/index/quanX">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>权限列表</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/index/jiaoS">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>角色列表</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
         </el-menu>
       </el-aside>
       <el-container>
