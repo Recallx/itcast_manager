@@ -8,8 +8,11 @@ import login from '../views/1.login.vue'
 import index from '../views/2.index.vue'
 import welcome from '../views/welcome.vue'
 import users from '../views/user/users.vue'
-import quanX from '../views/authority management/authority.vue'
-import jiaoS from '../views/authority management/rightjiao.vue'
+import rights from '../views/authority management/authority.vue'
+import roles from '../views/authority management/rightjiao.vue'
+import Goods from '../views/goods/goods.vue'
+import List from '../views/goods/list.vue'
+import add from '../views/goods/add.vue'
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -43,14 +46,33 @@ export default new VueRouter({
           component: users
         },
         {
-          name: 'quanX',
-          path: 'quanX',
-          component: quanX
+          name: 'rights',
+          path: 'rights',
+          component: rights
         },
         {
-          name: 'jiaoS',
-          path: 'jiaoS',
-          component: jiaoS
+          name: 'roles',
+          path: 'roles',
+          component: roles
+        },
+        {
+          name: 'goods',
+          path: 'goods',
+          component: Goods,
+          redirect: { name: 'list' },
+          // 嵌套路由
+          children: [
+            {
+              name: 'list',
+              path: 'list',
+              component: List
+            },
+            {
+              name: 'add',
+              path: 'add',
+              component: add
+            }
+          ]
         }
       ]
     }

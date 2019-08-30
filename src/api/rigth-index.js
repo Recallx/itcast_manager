@@ -7,3 +7,9 @@ export const getAllRightList = (type) => {
     url: `rights/${type}`
   })
 }
+// 获取左侧权限列表数据
+export const getAllLeftList = () => {
+  return axios({
+    url: 'menus'
+  })
+}

@@ -32,7 +32,12 @@
       <el-table-column prop="mobile" label="电话"></el-table-column>
       <el-table-column prop label="用户状态">
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.mg_state" active-color="#13ce66" inactive-color="#ff4949" @change="UpdateUser(scope.row.id,scope.row.mg_state)"></el-switch>
+          <el-switch
+            v-model="scope.row.mg_state"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="UpdateUser(scope.row.id,scope.row.mg_state)"
+          ></el-switch>
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -229,7 +234,12 @@ export default {
                   type: 'success',
                   message: '删除成功!'
                 })
-                // 刷新数据
+                //  这里不能直接刷新，
+                // 需求：如果当前页经过这一次删除，没有任何数据了，那么应该自动的跳转到上一页
+                // 所谓上一页，就是将userObj.pagenum--
+                // 那么问题的关键就是我们到底什么时候需要将pageNum --
+                // 公式用total总数组/pagesize
+                this.userobj.pagenum = Math.ceil((this.total - 1) / this.userobj.pagesize) < this.userobj.pagenum ? --this.userobj.pagenum : this.userobj.pagenum
                 this.init()
               } else {
                 this.$message.error('删除数据失败！')

@@ -19,3 +19,19 @@ export const deleteUserp = (roleId, rightId) => {
     method: 'delete'
   })
 }
+// 添加指定用户权限
+export const grantUserRole = (roleId, rids) => {
+  return axios({
+    method: 'post',
+    url: `roles/${roleId}/rights`,
+    data: { rids }
+  })
+}
+// 添加角色用户权限
+export const grantUser = (data) => {
+  return axios({
+    method: 'post',
+    url: `/roles`,
+    data
+  })
+}

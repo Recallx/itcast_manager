@@ -11,33 +11,15 @@
           text-color="#fff"
           active-text-color="#ffd04b"
         >
-          <el-submenu index="1">
+          <el-submenu :index="first.id+ ''" v-for="first in getAllmuen" :key="first.id">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{first.authName}}</span>
             </template>
-            <el-menu-item index="/index/users">
+            <el-menu-item :index="'/index/' + item.path" v-for="item in first.children" :key="item.id">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>用户列表</span>
-              </template>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>权限管理</span>
-            </template>
-            <el-menu-item index="/index/quanX">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>权限列表</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="/index/jiaoS">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span>角色列表</span>
+                <span>{{item.authName}}</span>
               </template>
             </el-menu-item>
           </el-submenu>
@@ -57,9 +39,22 @@
   </div>
 </template>
 <script>
+import { getAllLeftList } from '../api/rigth-index.js'
 export default {
   data () {
-    return {}
+    return {
+      getAllmuen: []
+    }
+  },
+  mounted () {
+    getAllLeftList()
+      .then(res => {
+        // console.log(res)
+        this.getAllmuen = res.data.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 }
 </script>
