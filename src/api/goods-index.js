@@ -15,3 +15,18 @@ export const getAllCate = (params) => {
     params
   })
 }
+// 实现图片上传方法
+export const uploadPictures = (data) => {
+  return axios({
+    url: 'upload',
+    data
+  })
+}
+// 商品添加方法
+export const addGoods = (data) => {
+  return axios({
+    url: 'goods',
+    method: 'post',
+    data
+  })
+}

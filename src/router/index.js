@@ -13,6 +13,7 @@ import roles from '../views/authority management/rightjiao.vue'
 import Goods from '../views/goods/goods.vue'
 import List from '../views/goods/list.vue'
 import add from '../views/goods/add.vue'
+import reports from '../views/respons.vue'
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -54,6 +55,11 @@ export default new VueRouter({
           name: 'roles',
           path: 'roles',
           component: roles
+        },
+        {
+          name: 'reports',
+          path: 'reports',
+          component: reports
         },
         {
           name: 'goods',
